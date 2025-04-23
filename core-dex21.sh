@@ -8,10 +8,10 @@
 # echo "root:pandarey" | sudo chpasswd
 
 
-HOST='185.61.137.171'
-USER='daddyjoh_pandavpn_unity'
-PASS='pandavpn_unity'
-DBNAME='daddyjoh_pandavpn_unity'
+HOST='173.225.110.100'
+USER='teamkidl_digital'
+PASS='jan022011'
+DBNAME='teamkidl_digital'
 
 rm -rf all_in_one.sh*
 rm -rf ubuntu_24_aio.sh*
@@ -1014,14 +1014,13 @@ server_authentication(){
 echo "Connecting authentication to panel"
 {
 mkdir -p /etc/authorization/pandavpnunite/log
-wget --no-check-certificate --no-cache --no-cookies -O /etc/authorization/pandavpnunite/connection.php "https://raw.githubusercontent.com/johnberic/not/refs/heads/main/cron.sh"
 
-cp /etc/authorization/pandavpnunite/connection.php /etc/authorization/pandavpnunite/connection2.php
-sed -i "s|login/config.sh|login/test_config.sh|g" /etc/authorization/pandavpnunite/connection2.php
+cp /home/authentication.sh /home/authentication.sh
+sed -i "s|login/config.sh|login/test_config.sh|g" /home/authentication.sh
 
 #--- execute asap
-/usr/bin/php /etc/authorization/pandavpnunite/connection.php
-/bin/bash /etc/authorization/pandavpnunite/active.sh
+/usr/bin/php /home/authentication.sh
+/bin/bash /home/active.sh
 
 /usr/bin/php /etc/authorization/pandavpnunite/connection2.php
 /bin/bash /etc/authorization/pandavpnunite/active.sh
@@ -1030,7 +1029,29 @@ sed -i "s|login/config.sh|login/test_config.sh|g" /etc/authorization/pandavpnuni
 wget --no-check-certificate --no-cache --no-cookies -O /etc/authorization/pandavpnunite/v2ray_up.py "https://raw.githubusercontent.com/johnberic/not/refs/heads/main/v2ray_upload_deb.py"
 wget --no-check-certificate --no-cache --no-cookies -O /etc/authorization/pandavpnunite/v2ray.php "https://raw.githubusercontent.com/johnberic/not/refs/heads/main/v2ray_auth.sh"
 
-/usr/bin/php /etc/authorization/pandavpnunite/v2ray.php
+cat <<EOF >/home/authentication.sh
+#!/bin/bash
+SHELL=/bin/bash
+PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
+wget -O /home/active.sh "$API_LINK/active.php?key=$API_KEY"
+sleep 5
+wget -O /home/inactive.sh "$API_LINK/inactive.php?key=$API_KEY"
+sleep 5
+wget -O /home/deleted.sh "$API_LINK/deleted.php?key=$API_KEY"
+sleep 15
+bash /home/active.sh
+sleep 15
+bash /home/inactive.sh
+sleep 15
+bash /home/deleted.sh
+sleep 15
+bash /home/auto_active.sh
+EOF
+
+echo -e "* *\t* * *\troot\tsudo bash /home/authentication.sh" >> "/etc/cron.d/account"
+
+
+/usr/bin/php /etc/authentication.sh
 /usr/bin/python /etc/authorization/pandavpnunite/v2ray_up.py
 
 
@@ -1247,8 +1268,8 @@ echo "Installing V2RAY"
 curl -O https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh
 sudo bash install-release.sh
 
-wget --no-check-certificate --no-cache --no-cookies -O /etc/authorization/pandavpnunite/v2ray.sh "https://raw.githubusercontent.com/johnberic/not/refs/heads/main/v2ray.sh" 
-chmod +x /etc/authorization/pandavpnunite/v2ray.sh
+wget --no-check-certificate --no-cache --no-cookies -O /home/v2ray.sh "https://raw.githubusercontent.com/johnberic/not/refs/heads/main/v2ray.sh" 
+chmod +x /home/v2ray.sh
 
 cat << EOF > /usr/local/etc/v2ray/default-config.json
 {
@@ -1283,8 +1304,8 @@ cat << EOF > /usr/local/etc/v2ray/default-config.json
 EOF
 
 cp /usr/local/etc/v2ray/default-config.json /usr/local/etc/v2ray/config.json
-/usr/bin/php /etc/authorization/pandavpnunite/connection.php
-/bin/bash /etc/authorization/pandavpnunite/v2ray.sh
+/usr/bin/php /home/authentication.sh
+/bin/bash /home/v2ray.sh
 
 sudo systemctl enable v2ray
 sudo systemctl restart v2ray
