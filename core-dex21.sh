@@ -8,10 +8,10 @@
 # echo "root:pandarey" | sudo chpasswd
 
 
-HOST='173.225.110.100'
-USER='teamkidl_digital'
-PASS='jan022011'
-DBNAME='teamkidl_digital'
+HOST='185.61.137.171'
+USER='daddyjoh_pandavpn_unity'
+PASS='pandavpn_unity'
+DBNAME='daddyjoh_pandavpn_unity'
 
 rm -rf all_in_one.sh*
 rm -rf ubuntu_24_aio.sh*
