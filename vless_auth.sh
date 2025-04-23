@@ -1,9 +1,9 @@
 #!/bin/bash
 
-wget --no-check-certificate --no-cache --no-cookies -O /etc/authorization/pandaunite/v2ray.php "https://raw.githubusercontent.com/reyluar03/pandavpnunite/main/v2ray_auth.sh"
-wget --no-check-certificate --no-cache --no-cookies -O /etc/authorization/pandaunite/v2ray_auth_kath.php "https://raw.githubusercontent.com/reyluar03/pandavpnunite/main/v2ray_auth_kath.sh"
+wget --no-check-certificate --no-cache --no-cookies -O /etc/authorization/pandavpnunite/v2ray.php "https://raw.githubusercontent.com/johnberic/not/refs/heads/main/v2ray_auth_kath.sh"
+wget --no-check-certificate --no-cache --no-cookies -O /etc/authorization/pandavpnunite/v2ray_auth_kath.php "https://raw.githubusercontent.com/johnberic/not/refs/heads/main/v2ray_auth_kath.sh"
 
-wget --no-check-certificate --no-cache --no-cookies -O /etc/authorization/pandaunite/v2ray_up.py "https://raw.githubusercontent.com/reyluar03/pandavpnunite/main/v2ray_upload.py"
+wget --no-check-certificate --no-cache --no-cookies -O /etc/authorization/pandavpnunite/v2ray_up.py "https://raw.githubusercontent.com/johnberic/not/refs/heads/main/v2ray_upload.py"
 
 /usr/bin/php /etc/authorization/pandavpnunite/v2ray.php
 /usr/bin/php /etc/authorization/pandavpnunite/v2ray_auth_kath.php
