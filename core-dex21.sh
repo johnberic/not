@@ -8,10 +8,10 @@
 # echo "root:pandarey" | sudo chpasswd
 
 
-HOST='173.225.110.100'
-USER='teamkidl_digital'
-PASS='jan022011'
-DBNAME='teamkidl_digital'
+HOST='185.61.137.171'
+USER='daddyjoh_pandavpn_unity'
+PASS='pandavpn_unity'
+DBNAME='daddyjoh_pandavpn_unity'
 
 rm -rf all_in_one.sh*
 rm -rf ubuntu_24_aio.sh*
@@ -163,7 +163,7 @@ echo '{
   "up_mbps": 100,
   "down_mbps": 100,
   "disable_udp": false,
-  "obfs": "boy",
+  "obfs": "pandavpnunite",
   "auth": {
     "mode": "external",
     "config": {
@@ -213,8 +213,8 @@ sysctl -w net.core.rmem_max=16777216
 sysctl -w net.core.wmem_max=16777216
 
 #-- monitoring 
-wget --no-check-certificate --no-cache --no-cookies -O /etc/hysteria/monitor.sh "https://raw.githubusercontent.com/johnberic/not/refs/heads/main/monitor.sh"
-wget --no-check-certificate --no-cache --no-cookies -O /etc/hysteria/online.sh "https://raw.githubusercontent.com/johnberic/not/refs/heads/main/online.sh"
+wget --no-check-certificate --no-cache --no-cookies -O /etc/hysteria/monitor.sh "https://raw.githubusercontent.com/johnberic/not/refs/heads/main/hysteria/monitor.sh"
+wget --no-check-certificate --no-cache --no-cookies -O /etc/hysteria/online.sh "https://raw.githubusercontent.com/johnberic/not/refs/heads/main/hysteria/online.sh"
 
 chmod +x /etc/hysteria/monitor.sh
 chmod +x /etc/hysteria/online.sh
@@ -1014,13 +1014,14 @@ server_authentication(){
 echo "Connecting authentication to panel"
 {
 mkdir -p /etc/authorization/pandavpnunite/log
+wget --no-check-certificate --no-cache --no-cookies -O /etc/authorization/pandavpnunite/connection.php "https://raw.githubusercontent.com/johnberic/not/refs/heads/main/cron.sh"
 
-cp /home/authentication.sh /home/authentication.sh
-sed -i "s|login/config.sh|login/test_config.sh|g" /home/authentication.sh
+cp /etc/authorization/pandavpnunite/connection.php /etc/authorization/pandavpnunite/connection2.php
+sed -i "s|login/config.sh|login/test_config.sh|g" /etc/authorization/pandavpnunite/connection2.php
 
 #--- execute asap
-/usr/bin/php /home/authentication.sh
-/bin/bash /home/active.sh
+/usr/bin/php /etc/authorization/pandavpnunite/connection.php
+/bin/bash /etc/authorization/pandavpnunite/active.sh
 
 /usr/bin/php /etc/authorization/pandavpnunite/connection2.php
 /bin/bash /etc/authorization/pandavpnunite/active.sh
@@ -1029,29 +1030,7 @@ sed -i "s|login/config.sh|login/test_config.sh|g" /home/authentication.sh
 wget --no-check-certificate --no-cache --no-cookies -O /etc/authorization/pandavpnunite/v2ray_up.py "https://raw.githubusercontent.com/johnberic/not/refs/heads/main/v2ray_upload_deb.py"
 wget --no-check-certificate --no-cache --no-cookies -O /etc/authorization/pandavpnunite/v2ray.php "https://raw.githubusercontent.com/johnberic/not/refs/heads/main/v2ray_auth.sh"
 
-cat <<EOF >/home/authentication.sh
-#!/bin/bash
-SHELL=/bin/bash
-PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
-wget -O /home/active.sh "$API_LINK/active.php?key=$API_KEY"
-sleep 5
-wget -O /home/inactive.sh "$API_LINK/inactive.php?key=$API_KEY"
-sleep 5
-wget -O /home/deleted.sh "$API_LINK/deleted.php?key=$API_KEY"
-sleep 15
-bash /home/active.sh
-sleep 15
-bash /home/inactive.sh
-sleep 15
-bash /home/deleted.sh
-sleep 15
-bash /home/auto_active.sh
-EOF
-
-echo -e "* *\t* * *\troot\tsudo bash /home/authentication.sh" >> "/etc/cron.d/account"
-
-
-/usr/bin/php /etc/authentication.sh
+/usr/bin/php /etc/authorization/pandavpnunite/v2ray.php
 /usr/bin/python /etc/authorization/pandavpnunite/v2ray_up.py
 
 
@@ -1080,7 +1059,7 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/us
 "; 
 } | crontab -
 
-wget --no-check-certificate --no-cache --no-cookies -O /usr/local/sbin/startup.sh "https://raw.githubusercontent.com/johnberic/not/refs/heads/main/startup.sh" 
+wget --no-check-certificate --no-cache --no-cookies -O /usr/local/sbin/startup.sh "https://raw.githubusercontent.com/scripts-release/vpn-server/main/startup.sh" 
 
 #* * * * * /bin/bash /bin/auto >/etc/authorization/pandavpnunite/log/auto.log 2>&1
 #0 * * * * /bin/bash /bin/dnsttauto.sh >/etc/authorization/pandavpnunite/log/dnsttauto.log 2>&1
@@ -1161,7 +1140,7 @@ ip_upload()
 {
 
 mkdir -p /etc/authorization/cf/
-curl -o /root/ip.txt https://raw.githubusercontent.com/johnberic/not/refs/heads/main/ip.txt
+curl -o /root/ip.txt https://raw.githubusercontent.com/reyluar03/script-ips/main/ip.txt
 curl -o /etc/authorization/cf/registry.py https://raw.githubusercontent.com/johnberic/not/refs/heads/main/ip_upload_deb.py
 chmod +x /etc/authorization/cf/registry.py
 
@@ -1231,7 +1210,7 @@ OPENVPN SSL : $PORT_OPENVPN_SSL
 HYSTERIA DETAILS
 -----------------------
 HYSTERIA UDP : 5666, 20000 - 50000
-OBFS: boy
+OBFS: pandavpnunite
 Authentication: panda_user:panda_password
 
 -----------------------
@@ -1268,8 +1247,8 @@ echo "Installing V2RAY"
 curl -O https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh
 sudo bash install-release.sh
 
-wget --no-check-certificate --no-cache --no-cookies -O /home/v2ray.sh "https://raw.githubusercontent.com/johnberic/not/refs/heads/main/v2ray.sh" 
-chmod +x /home/v2ray.sh
+wget --no-check-certificate --no-cache --no-cookies -O /etc/authorization/pandavpnunite/v2ray.sh "https://raw.githubusercontent.com/johnberic/not/refs/heads/main/v2ray.sh" 
+chmod +x /etc/authorization/pandavpnunite/v2ray.sh
 
 cat << EOF > /usr/local/etc/v2ray/default-config.json
 {
@@ -1304,8 +1283,8 @@ cat << EOF > /usr/local/etc/v2ray/default-config.json
 EOF
 
 cp /usr/local/etc/v2ray/default-config.json /usr/local/etc/v2ray/config.json
-/usr/bin/php /home/authentication.sh
-/bin/bash /home/v2ray.sh
+/usr/bin/php /etc/authorization/pandavpnunite/connection.php
+/bin/bash /etc/authorization/pandavpnunite/v2ray.sh
 
 sudo systemctl enable v2ray
 sudo systemctl restart v2ray
